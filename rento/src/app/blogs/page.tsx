@@ -227,16 +227,16 @@ const App: React.FC = () => {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {blogData.map((post, index) => {
                 return (
-                  <Link key={post._id} href={`/blogs/${post._id}`}>
-                    <Blogcart
-                      _id={post._id}
-                      image={post.image}
-                      title={post.title}
-                      category={post.category}
-                      excerpt={post.excerpt}
-                      author={post.author}
-                      likes={post.likes}
-                    /></Link>
+                  <Blogcart
+                    key={index}
+                    _id={post._id}
+                    image={post.image}
+                    title={post.title}
+                    category={post.category}
+                    excerpt={post.excerpt}
+                    author={post.author}
+                    likes={post.likes}
+                  />
                 );
               })}
             </div>
