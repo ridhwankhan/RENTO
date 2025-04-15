@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
 import * as echarts from "echarts";
-import Blogcart from "./Blogcart";
+import Blogcart from "./BlogCart";
 import Link from "next/link";
 
 interface Blog {
@@ -125,55 +125,6 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="fixed top-0 w-full bg-white shadow-sm z-50">
-        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <i className="fas fa-home text-2xl text-blue-600"></i>
-            <span className="text-xl font-semibold">Rento</span>
-          </div>
-
-          <nav className="hidden md:flex space-x-8">
-            <a
-              href="#"
-              className="text-gray-600 hover:text-blue-600 cursor-pointer"
-            >
-              Home
-            </a>
-            <a
-              href="#"
-              className="text-gray-600 hover:text-blue-600 cursor-pointer"
-            >
-              Listings
-            </a>
-            <a
-              href="#"
-              className="text-gray-600 hover:text-blue-600 cursor-pointer"
-            >
-              Blog
-            </a>
-            <a
-              href="src\app\blogs\page.tsx"
-              className="text-gray-600 hover:text-blue-600 cursor-pointer"
-            >
-              About
-            </a>
-            <a
-              href="#"
-              className="text-gray-600 hover:text-blue-600 cursor-pointer"
-            >
-              Contact
-            </a>
-          </nav>
-
-          <button
-            onClick={() => setShowSubscribeModal(true)}
-            className="!rounded-button bg-blue-600 text-white px-6 py-2 hover:bg-blue-700 transition duration-300 cursor-pointer whitespace-nowrap"
-          >
-            Subscribe
-          </button>
-        </div>
-      </header>
-
       <main className="max-w-7xl mx-auto px-4 pt-24">
         <div className="mb-8">
           <div className="relative max-w-2xl mx-auto">
