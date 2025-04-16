@@ -1,0 +1,296 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.header {
+  text-align: center;
+  margin: 20px 0;
+  color: #2c3e50;
+}
+
+.header h1 {
+  margin-bottom: 10px;
+  font-size: 2.5rem;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.tab {
+  padding: 12px 25px;
+  background: #f8f9fa;
+  border: none;
+  border-bottom: 3px solid transparent;
+  margin: 0 10px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  color: #666;
+  transition: all 0.3s ease;
+}
+
+.tab:hover {
+  color: #3498db;
+}
+
+.tab.active {
+  color: #3498db;
+  border-bottom: 3px solid #3498db;
+  background: #fff;
+}
+
+/* Content container */
+.content-container {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Form styles */
+.item-form {
+  padding: 25px;
+}
+
+.form-control {
+  margin-bottom: 20px;
+}
+
+.form-control label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.form-control input,
+.form-control textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: border 0.3s ease;
+}
+
+.form-control input:focus,
+.form-control textarea:focus {
+  border-color: #3498db;
+  outline: none;
+}
+
+.btn {
+  display: inline-block;
+  background: #3498db;
+  color: #fff;
+  border: none;
+  padding: 12px 25px;
+  margin: 10px 0;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background 0.3s ease;
+}
+
+.btn:hover {
+  background: #2980b9;
+}
+
+.location-details {
+  background-color: #f8f9fa;
+  padding: 10px 15px;
+  border-radius: 5px;
+  margin: 15px 0;
+  border-left: 4px solid #3498db;
+}
+
+/* Search container */
+.search-container {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.search-container input {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px 0 0 4px;
+  font-size: 16px;
+}
+
+.search-container button {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 0 20px;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s ease;
+}
+
+.search-container button:hover {
+  background: #2980b9;
+}
+
+/* Map and sidebar layout */
+.map-sidebar-container {
+  display: flex;
+  height: 600px;
+}
+
+.map-container {
+  flex: 2;
+  position: relative;
+  overflow: hidden;
+}
+
+.sidebar {
+  flex: 1;
+  background: #f8f9fa;
+  padding: 15px;
+  overflow-y: auto;
+  border-left: 1px solid #ddd;
+}
+
+.sidebar h3 {
+  margin-top: 0;
+  color: #2c3e50;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 10px;
+}
+
+.sidebar-tip {
+  font-size: 12px;
+  color: #666;
+  font-style: italic;
+  margin-bottom: 15px;
+}
+
+.location-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.location-item {
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.location-item:hover {
+  background: #e9f7fe;
+}
+
+.location-item.active {
+  background: #e9f7fe;
+  border-left: 4px solid #3498db;
+}
+
+.location-item h4 {
+  margin: 0 0 5px 0;
+  color: #2c3e50;
+}
+
+.location-description {
+  margin: 5px 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.location-date {
+  margin: 5px 0 0 0;
+  color: #999;
+  font-size: 12px;
+}
+
+/* Marker animations */
+.leaflet-marker-icon {
+  transition: all 0.3s ease;
+}
+
+.leaflet-marker-icon:hover {
+  transform: scale(1.1);
+}
+
+/* Add a pulse animation to markers */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.leaflet-marker-icon.selected {
+  animation: pulse 1.5s infinite;
+  z-index: 1000 !important;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 10px;
+  }
+
+  .header h1 {
+    font-size: 2rem;
+  }
+
+  .map-sidebar-container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .map-container {
+    height: 400px;
+  }
+
+  .sidebar {
+    height: 300px;
+    border-left: none;
+    border-top: 1px solid #ddd;
+  }
+
+  .form-control input,
+  .form-control textarea {
+    padding: 10px;
+  }
+
+  .btn {
+    padding: 10px 20px;
+  }
+}
