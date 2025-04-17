@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, { useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,6 +9,7 @@ const App: React.FC = () => {
   const [sortBy, setSortBy] = useState("latest");
   const [searchQuery, setSearchQuery] = useState("");
   const [showNotifications, setShowNotifications] = useState(false);
+  const [showPostPopup, setShowPostPopup] = useState(false);
   const categories = [
     {
       id: "rental-experiences",
@@ -201,9 +202,6 @@ const App: React.FC = () => {
                   Alex Morgan
                 </span>
               </div>
-              <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium cursor-pointer !rounded-button whitespace-nowrap">
-                <i className="fas fa-plus mr-2"></i>Create Post
-              </button>
             </div>
           </div>
         </div>
@@ -211,8 +209,8 @@ const App: React.FC = () => {
       {/* Main Content */}
       <main className="pt-20 pb-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Search Bar */}
-        <div className="mb-6">
-          <div className="relative max-w-2xl mx-auto">
+        <div className="mb-6 flex items-center justify-between">
+          <div className="relative max-w-2xl w-full">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <i className="fas fa-search text-gray-400"></i>
             </div>
@@ -224,7 +222,41 @@ const App: React.FC = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
+            <button
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium cursor-pointer !rounded-button whitespace-nowrap ml-4"
+            onClick={() => setShowPostPopup(true)}
+            >
+            <i className="fas fa-plus mr-2"></i>Create Post
+            </button>
+            {showPostPopup && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <div className="bg-white rounded-lg shadow-lg w-full max-w-lg p-6">
+              <h2 className="text-lg font-semibold text-gray-800 mb-4">
+                Create a New Post
+              </h2>
+              <textarea
+                className="w-full border border-gray-300 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                rows={5}
+                placeholder="Write your post here..."
+              ></textarea>
+              <div className="mt-4 flex justify-end space-x-2">
+                <button
+                className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg text-sm font-medium cursor-pointer"
+                onClick={() => setShowPostPopup(false)}
+                >
+                Cancel
+                </button>
+                <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium cursor-pointer">
+                Post
+                </button>
+              </div>
+              </div>
+            </div>
+            )}
         </div>
+
+        
+
         <div className="flex flex-col md:flex-row gap-6">
           {/* Left Column - Forum Posts */}
           <div className="w-full md:w-8/12">
@@ -399,7 +431,10 @@ const App: React.FC = () => {
                   onClick={() => setActiveCategory("all")}
                 >
                   <div className="flex items-center">
-                    <FontAwesomeIcon icon={faLayerGroup} className="mr-3 text-blue-500" />
+                    <FontAwesomeIcon
+                      icon={faLayerGroup}
+                      className="mr-3 text-blue-500"
+                    />
                     <span className="font-medium">All Topics</span>
                   </div>
                   <span className="text-sm text-gray-500">927</span>
