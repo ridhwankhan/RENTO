@@ -3,12 +3,21 @@ import React from "react";
 import "./Leaderboard.css"; // optional custom CSS for glowing effects
 
 const mockLeaderboard = [
-  { rank: 1, name: "Alice", score: 950, team: "ByteBusters" },
-  { rank: 2, name: "Bob", score: 900, team: "CyberKnights" },
-  { rank: 3, name: "Charlie", score: 870, team: "RootRunners" },
-  { rank: 4, name: "David", score: 800, team: "NullNinjas" },
-  { rank: 5, name: "Eve", score: 750, team: "RedReboot" },
-  // ...more users
+  { rank: 1, name: "Alice", score: 950 },
+  { rank: 2, name: "Bob", score: 900 },
+  { rank: 3, name: "Charlie", score: 870 },
+  { rank: 4, name: "David", score: 800 },
+  { rank: 5, name: "Eve", score: 750 },
+  { rank: 6, name: "Frank", score: 720 },
+  { rank: 7, name: "Grace", score: 690 },
+  { rank: 8, name: "Henry", score: 650 },
+  { rank: 9, name: "Isabel", score: 630 },
+  { rank: 10, name: "Jack", score: 600 },
+  { rank: 11, name: "Kelly", score: 580 },
+  { rank: 12, name: "Liam", score: 550 },
+  { rank: 13, name: "Mia", score: 520 },
+  { rank: 14, name: "Noah", score: 500 },
+  { rank: 15, name: "Olivia", score: 480 }
 ];
 
 const Leaderboard = () => {
@@ -22,12 +31,11 @@ const Leaderboard = () => {
             <tr className="text-cyan-300 text-lg border-b border-cyan-600">
               <th className="py-4">Rank</th>
               <th>Name</th>
-              <th>Team</th>
               <th>Score</th>
             </tr>
           </thead>
           <tbody>
-            {mockLeaderboard.map((user, index) => (
+            {mockLeaderboard.map((user) => (
               <tr
                 key={user.rank}
                 className={`hover:bg-cyan-900/10 transition-all ${
@@ -42,7 +50,6 @@ const Leaderboard = () => {
               >
                 <td className="py-3">{user.rank}</td>
                 <td>{user.name}</td>
-                <td>{user.team}</td>
                 <td>{user.score}</td>
               </tr>
             ))}
