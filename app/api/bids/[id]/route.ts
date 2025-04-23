@@ -6,10 +6,10 @@ export async function GET(
 ) {
   try {
     const id = params.id;
-    
+
     // Here you would fetch a specific bid from your database
     // const bid = await prisma.bid.findUnique({ where: { id: parseInt(id) } });
-    
+
     // Temporary response for demonstration
     const bid = {
       id: parseInt(id),
@@ -37,7 +37,7 @@ export async function PUT(
   try {
     const id = params.id;
     const body = await request.json();
-    
+
     // Validate the request body
     if (!body.amount) {
       return NextResponse.json(
@@ -83,7 +83,7 @@ export async function DELETE(
 ) {
   try {
     const id = params.id;
-    
+
     // Here you would delete the bid from your database
     // await prisma.bid.delete({ where: { id: parseInt(id) } });
 
