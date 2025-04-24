@@ -1,15 +1,38 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart, faLayerGroup } from "@fortawesome/free-solid-svg-icons";
+import { faHeart, faLayerGroup, faComment, faChevronRight, faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 
 const App: React.FC = () => {
+
+
+  interface Post {
+    _id: string;
+    title: string;
+    preview: string;
+    category: string;
+    author: {
+      name: string;
+      avatar: string;
+    };
+    comments: number;
+    likes: number;
+    time: string;
+  }
+
   const [activeCategory, setActiveCategory] = useState("all");
   const [sortBy, setSortBy] = useState("latest");
   const [searchQuery, setSearchQuery] = useState("");
   const [showNotifications, setShowNotifications] = useState(false);
   const [showPostPopup, setShowPostPopup] = useState(false);
+
+  const [title, setTitle] = useState("");
+  const [preview, setPreview] = useState("");
+  const [category, setCategory] = useState("");
+  const [authorName, setAuthorName] = useState("");
+  const [avatar, setAvatar] = useState("");
+
   const categories = [
     {
       id: "rental-experiences",
@@ -50,85 +73,85 @@ const App: React.FC = () => {
     "Dealing with noisy neighbors",
     "Security deposit return tips",
   ];
-  const posts = [
-    {
-      id: 1,
-      title: "My experience with a difficult landlord and how I resolved it",
-      preview:
-        "After months of dealing with maintenance issues being ignored, I finally found a solution that worked without having to move out...",
-      category: "Rental Experiences",
-      author: {
-        name: "Emily Parker",
-        avatar:
-          "https://readdy.ai/api/search-image?query=professional%20portrait%20photo%20of%20a%20young%20woman%20with%20short%20brown%20hair%2C%20friendly%20smile%2C%20neutral%20background%2C%20high%20quality%2C%20photorealistic%2C%20soft%20lighting%2C%20professional%20headshot&width=40&height=40&seq=1&orientation=squarish",
-      },
-      comments: 24,
-      likes: 47,
-      time: "2 hours ago",
-    },
-    {
-      id: 2,
-      title:
-        "Guide: Understanding your lease agreement - hidden clauses to watch for",
-      preview:
-        "Many renters sign leases without fully understanding the terms. Here are the most common problematic clauses and what they actually mean...",
-      category: "Legal Questions",
-      author: {
-        name: "Marcus Johnson",
-        avatar:
-          "https://readdy.ai/api/search-image?query=professional%20portrait%20photo%20of%20a%20middle-aged%20man%20with%20glasses%2C%20professional%20attire%2C%20neutral%20background%2C%20high%20quality%2C%20photorealistic%2C%20soft%20lighting%2C%20professional%20headshot&width=40&height=40&seq=2&orientation=squarish",
-      },
-      comments: 36,
-      likes: 89,
-      time: "5 hours ago",
-    },
-    {
-      id: 3,
-      title:
-        "Found the perfect roommate through this platform - here's my story",
-      preview:
-        "After three terrible roommate experiences, I was about to give up. Then I tried this approach to screening potential roommates...",
-      category: "Roommate Finder",
-      author: {
-        name: "Sophia Lee",
-        avatar:
-          "https://readdy.ai/api/search-image?query=professional%20portrait%20photo%20of%20a%20young%20asian%20woman%20with%20long%20black%20hair%2C%20friendly%20smile%2C%20neutral%20background%2C%20high%20quality%2C%20photorealistic%2C%20soft%20lighting%2C%20professional%20headshot&width=40&height=40&seq=3&orientation=squarish",
-      },
-      comments: 18,
-      likes: 32,
-      time: "1 day ago",
-    },
-    {
-      id: 4,
-      title: "Review: Parkview Apartments - Honest assessment after 2 years",
-      preview:
-        "I've lived at Parkview for two years now and wanted to share my honest thoughts about the pros and cons of this property...",
-      category: "Property Reviews",
-      author: {
-        name: "David Wilson",
-        avatar:
-          "https://readdy.ai/api/search-image?query=professional%20portrait%20photo%20of%20a%20young%20man%20with%20beard%2C%20casual%20attire%2C%20neutral%20background%2C%20high%20quality%2C%20photorealistic%2C%20soft%20lighting%2C%20professional%20headshot&width=40&height=40&seq=4&orientation=squarish",
-      },
-      comments: 42,
-      likes: 63,
-      time: "2 days ago",
-    },
-    {
-      id: 5,
-      title: "How I saved $2000 on my cross-country move - practical tips",
-      preview:
-        "Moving across the country seemed financially impossible until I discovered these money-saving strategies that actually worked...",
-      category: "Moving Tips",
-      author: {
-        name: "Rachel Green",
-        avatar:
-          "https://readdy.ai/api/search-image?query=professional%20portrait%20photo%20of%20a%20woman%20in%20her%2030s%20with%20curly%20hair%2C%20casual%20professional%20attire%2C%20neutral%20background%2C%20high%20quality%2C%20photorealistic%2C%20soft%20lighting%2C%20professional%20headshot&width=40&height=40&seq=5&orientation=squarish",
-      },
-      comments: 29,
-      likes: 75,
-      time: "3 days ago",
-    },
-  ];
+  // const posts = [
+  //   {
+  //     id: 1,
+  //     title: "My experience with a difficult landlord and how I resolved it",
+  //     preview:
+  //       "After months of dealing with maintenance issues being ignored, I finally found a solution that worked without having to move out...",
+  //     category: "Rental Experiences",
+  //     author: {
+  //       name: "Emily Parker",
+  //       avatar:
+  //         "https://readdy.ai/api/search-image?query=professional%20portrait%20photo%20of%20a%20young%20woman%20with%20short%20brown%20hair%2C%20friendly%20smile%2C%20neutral%20background%2C%20high%20quality%2C%20photorealistic%2C%20soft%20lighting%2C%20professional%20headshot&width=40&height=40&seq=1&orientation=squarish",
+  //     },
+  //     comments: 24,
+  //     likes: 47,
+  //     time: "2 hours ago",
+  //   },
+  //   {
+  //     id: 2,
+  //     title:
+  //       "Guide: Understanding your lease agreement - hidden clauses to watch for",
+  //     preview:
+  //       "Many renters sign leases without fully understanding the terms. Here are the most common problematic clauses and what they actually mean...",
+  //     category: "Legal Questions",
+  //     author: {
+  //       name: "Marcus Johnson",
+  //       avatar:
+  //         "https://readdy.ai/api/search-image?query=professional%20portrait%20photo%20of%20a%20middle-aged%20man%20with%20glasses%2C%20professional%20attire%2C%20neutral%20background%2C%20high%20quality%2C%20photorealistic%2C%20soft%20lighting%2C%20professional%20headshot&width=40&height=40&seq=2&orientation=squarish",
+  //     },
+  //     comments: 36,
+  //     likes: 89,
+  //     time: "5 hours ago",
+  //   },
+  //   {
+  //     id: 3,
+  //     title:
+  //       "Found the perfect roommate through this platform - here's my story",
+  //     preview:
+  //       "After three terrible roommate experiences, I was about to give up. Then I tried this approach to screening potential roommates...",
+  //     category: "Roommate Finder",
+  //     author: {
+  //       name: "Sophia Lee",
+  //       avatar:
+  //         "https://readdy.ai/api/search-image?query=professional%20portrait%20photo%20of%20a%20young%20asian%20woman%20with%20long%20black%20hair%2C%20friendly%20smile%2C%20neutral%20background%2C%20high%20quality%2C%20photorealistic%2C%20soft%20lighting%2C%20professional%20headshot&width=40&height=40&seq=3&orientation=squarish",
+  //     },
+  //     comments: 18,
+  //     likes: 32,
+  //     time: "1 day ago",
+  //   },
+  //   {
+  //     id: 4,
+  //     title: "Review: Parkview Apartments - Honest assessment after 2 years",
+  //     preview:
+  //       "I've lived at Parkview for two years now and wanted to share my honest thoughts about the pros and cons of this property...",
+  //     category: "Property Reviews",
+  //     author: {
+  //       name: "David Wilson",
+  //       avatar:
+  //         "https://readdy.ai/api/search-image?query=professional%20portrait%20photo%20of%20a%20young%20man%20with%20beard%2C%20casual%20attire%2C%20neutral%20background%2C%20high%20quality%2C%20photorealistic%2C%20soft%20lighting%2C%20professional%20headshot&width=40&height=40&seq=4&orientation=squarish",
+  //     },
+  //     comments: 42,
+  //     likes: 63,
+  //     time: "2 days ago",
+  //   },
+  //   {
+  //     id: 5,
+  //     title: "How I saved $2000 on my cross-country move - practical tips",
+  //     preview:
+  //       "Moving across the country seemed financially impossible until I discovered these money-saving strategies that actually worked...",
+  //     category: "Moving Tips",
+  //     author: {
+  //       name: "Rachel Green",
+  //       avatar:
+  //         "https://readdy.ai/api/search-image?query=professional%20portrait%20photo%20of%20a%20woman%20in%20her%2030s%20with%20curly%20hair%2C%20casual%20professional%20attire%2C%20neutral%20background%2C%20high%20quality%2C%20photorealistic%2C%20soft%20lighting%2C%20professional%20headshot&width=40&height=40&seq=5&orientation=squarish",
+  //     },
+  //     comments: 29,
+  //     likes: 75,
+  //     time: "3 days ago",
+  //   },
+  // ];
   const notifications = [
     {
       id: 1,
@@ -142,6 +165,68 @@ const App: React.FC = () => {
     },
     { id: 3, text: "New housing advice in your area", time: "1 day ago" },
   ];
+
+  const handleCreatePost = async () => {
+    try {
+      const res = await fetch('/api/forum', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title,
+          preview,
+          category,
+          author: {
+            name: authorName,
+            avatar,
+          },
+          time: new Date().toLocaleString(),
+        }),
+      });
+  
+      const text = await res.text(); // get raw response text
+      const data = text ? JSON.parse(text) : null;
+  
+      if (res.ok) {
+        alert('Post created!');
+        setShowPostPopup(false);
+        setTitle('');
+        setPreview('');
+        setCategory('');
+        setAuthorName('');
+        setAvatar('');
+      } else {
+        console.error('Server error:', data);
+        alert(data?.message || 'Failed to create post');
+      }
+    } catch (err) {
+      console.error('Unexpected error:', err);
+      alert('An unexpected error occurred');
+    }
+  };
+  
+    
+
+    const [posts, setPosts] = useState<Post[]>([]);
+    const [loading, setLoading] = useState(true);
+  
+    useEffect(() => {
+      const fetchPosts = async () => {
+        try {
+          const res = await fetch('/api/forum');
+          const data = await res.json();
+          setPosts(data);
+        } catch (error) {
+          console.error('Error fetching posts:', error);
+        } finally {
+          setLoading(false);
+        }
+      };
+  
+      fetchPosts();
+    }, []);
+  
+    if (loading) return <p className="text-gray-500">Loading posts...</p>;
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -222,40 +307,82 @@ const App: React.FC = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
-            <button
+          <button
             className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium cursor-pointer !rounded-button whitespace-nowrap ml-4"
             onClick={() => setShowPostPopup(true)}
-            >
+          >
             <i className="fas fa-plus mr-2"></i>Create Post
-            </button>
-            {showPostPopup && (
+          </button>
+          {showPostPopup && (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
               <div className="bg-white rounded-lg shadow-lg w-full max-w-lg p-6">
-              <h2 className="text-lg font-semibold text-gray-800 mb-4">
-                Create a New Post
-              </h2>
-              <textarea
-                className="w-full border border-gray-300 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                rows={5}
-                placeholder="Write your post here..."
-              ></textarea>
-              <div className="mt-4 flex justify-end space-x-2">
-                <button
-                className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg text-sm font-medium cursor-pointer"
-                onClick={() => setShowPostPopup(false)}
-                >
-                Cancel
-                </button>
-                <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium cursor-pointer">
-                Post
-                </button>
-              </div>
+                <h2 className="text-lg font-semibold text-gray-800 mb-4">
+                  Create a New Post
+                </h2>
+
+                {/* Title */}
+                <input
+                  type="text"
+                  className="w-full border border-gray-300 rounded-lg p-3 text-sm mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Post title"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+
+                {/* Preview */}
+                <textarea
+                  className="w-full border border-gray-300 rounded-lg p-3 text-sm mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  rows={3}
+                  placeholder="Preview text..."
+                  value={preview}
+                  onChange={(e) => setPreview(e.target.value)}
+                ></textarea>
+
+                {/* Category */}
+                <input
+                  type="text"
+                  className="w-full border border-gray-300 rounded-lg p-3 text-sm mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Category"
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                />
+
+                {/* Author name */}
+                <input
+                  type="text"
+                  className="w-full border border-gray-300 rounded-lg p-3 text-sm mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Author name"
+                  value={authorName}
+                  onChange={(e) => setAuthorName(e.target.value)}
+                />
+
+                {/* Avatar URL (optional) */}
+                <input
+                  type="text"
+                  className="w-full border border-gray-300 rounded-lg p-3 text-sm mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Author avatar URL"
+                  value={avatar}
+                  onChange={(e) => setAvatar(e.target.value)}
+                />
+
+                <div className="mt-4 flex justify-end space-x-2">
+                  <button
+                    className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg text-sm font-medium cursor-pointer"
+                    onClick={() => setShowPostPopup(false)}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium cursor-pointer"
+                    onClick={handleCreatePost}
+                  >
+                    Post
+                  </button>
+                </div>
               </div>
             </div>
-            )}
+          )}
         </div>
-
-        
 
         <div className="flex flex-col md:flex-row gap-6">
           {/* Left Column - Forum Posts */}
@@ -282,53 +409,54 @@ const App: React.FC = () => {
             </div>
             {/* Posts */}
             <div className="space-y-4">
-              {posts.map((post) => (
-                <div
-                  key={post.id}
-                  className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200"
-                >
-                  <div className="p-5">
-                    <div className="flex items-center mb-3">
-                      <img
-                        className="h-10 w-10 rounded-full object-cover"
-                        src={post.author.avatar}
-                        alt={post.author.name}
-                      />
-                      <div className="ml-3">
-                        <p className="text-sm font-medium text-gray-800">
-                          {post.author.name}
-                        </p>
-                        <p className="text-xs text-gray-500">{post.time}</p>
-                      </div>
-                    </div>
-                    <h3 className="text-lg font-semibold text-gray-800 mb-2 hover:text-blue-600 cursor-pointer">
-                      {post.title}
-                    </h3>
-                    <p className="text-gray-600 text-sm mb-3">{post.preview}</p>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-4">
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                          {post.category}
-                        </span>
-                      </div>
-                      <div className="flex items-center space-x-4 text-gray-500">
-                        <span className="flex items-center text-sm">
-                          <i className="far fa-comment mr-1"></i>
-                          {post.comments}
-                        </span>
-                        <span className="flex items-center text-sm">
-                          <i className="far fa-heart mr-1"></i>
-                          {post.likes}
-                        </span>
-                        <button className="text-gray-500 hover:text-gray-700 cursor-pointer !rounded-button whitespace-nowrap">
-                          <i className="fas fa-ellipsis-h"></i>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
+      {posts.map((post) => (
+        <div
+          key={post._id}
+          className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200"
+        >
+          <div className="p-5">
+            <div className="flex items-center mb-3">
+              <img
+                className="h-10 w-10 rounded-full object-cover"
+                src={post.author.avatar}
+                alt={post.author.name}
+              />
+              <div className="ml-3">
+                <p className="text-sm font-medium text-gray-800">
+                  {post.author.name}
+                </p>
+                <p className="text-xs text-gray-500">{post.time}</p>
+              </div>
             </div>
+            <h3 className="text-lg font-semibold text-gray-800 mb-2 hover:text-blue-600 cursor-pointer">
+              {post.title}
+            </h3>
+            <p className="text-gray-600 text-sm mb-3">{post.preview}</p>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                  {post.category}
+                </span>
+              </div>
+              <div className="flex items-center space-x-4 text-gray-500">
+                <span className="flex items-center text-sm">
+                  <i className="far fa-comment mr-1"></i>
+                  <FontAwesomeIcon icon={faComment} />
+                  {post.comments}
+                </span>
+                <span className="flex items-center text-sm">
+                  <FontAwesomeIcon icon={faHeart} />
+                  {post.likes}
+                </span>
+                <button className="text-gray-500 hover:text-gray-700 cursor-pointer !rounded-button whitespace-nowrap">
+                  <i className="fas fa-ellipsis-h"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
             {/* Pagination */}
             <div className="flex justify-center mt-8">
               <nav
@@ -339,7 +467,7 @@ const App: React.FC = () => {
                   href="#"
                   className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 cursor-pointer !rounded-button whitespace-nowrap"
                 >
-                  <i className="fas fa-chevron-left"></i>
+                    <FontAwesomeIcon icon={faChevronLeft} />
                 </a>
                 <a
                   href="#"
@@ -372,7 +500,7 @@ const App: React.FC = () => {
                   href="#"
                   className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 cursor-pointer !rounded-button whitespace-nowrap"
                 >
-                  <i className="fas fa-chevron-right"></i>
+                    <FontAwesomeIcon icon={faChevronRight} />
                 </a>
               </nav>
             </div>

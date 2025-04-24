@@ -44,17 +44,52 @@ const Blogcart = ({ _id, image, title, category, excerpt, author, likes }) => {
             <span className="text-sm text-gray-700">{author.name}</span>
           </div>
             <button
-            className="text-gray-400 hover:text-red-500 cursor-pointer"
-            onClick={() => {
+            className={`cursor-pointer ${
+              notLiked ? "text-gray-400 hover:text-red-500" : "text-red-500"
+            }`}
+            onClick={async () => {
               if (isLoggedIn && notLiked) {
               setinitialLikes((previnitialLikes) => previnitialLikes + 1);
               setNotLiked(false);
-              } 
-              else if (isLoggedIn && !notLiked) {
+              try {
+                const response = await fetch(`/api/blog/${_id}`, {
+                method: "PATCH",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ increment: 1 }),
+                });
+                if (!response.ok) {
+                throw new Error("Failed to update likes in the database.");
+                }
+              } catch (error) {
+                console.error("Error updating likes:", error);
+                // Revert state changes if the database update fails
+                setinitialLikes((previnitialLikes) => previnitialLikes - 1);
+                setNotLiked(true);
+              }
+              } else if (isLoggedIn && !notLiked) {
               setinitialLikes((previnitialLikes) => previnitialLikes - 1);
-              setNotLiked(true);}
-
-              else {
+              setNotLiked(true);
+              try {
+                const response = await fetch(`/api/blog/${_id}`, {
+                method: "PATCH",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                
+                body: JSON.stringify({ increment: -1 }),
+                });
+                if (!response.ok) {
+                throw new Error("Failed to update likes in the database.");
+                }
+              } catch (error) {
+                console.error("Error updating likes:", error);
+                // Revert state changes if the database update fails
+                setinitialLikes((previnitialLikes) => previnitialLikes + 1);
+                setNotLiked(false);
+              }
+              } else {
               showLoginPopup();
               }
             }}

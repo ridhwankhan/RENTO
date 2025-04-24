@@ -275,6 +275,7 @@ const App: React.FC = () => {
               </div>
             </div>
 
+            <a href="houseDetailsPage">
             <div className="bg-white rounded-xl p-6 shadow-md">
               <h3 className="text-xl font-semibold mb-4">
                 Featured Properties
@@ -300,6 +301,7 @@ const App: React.FC = () => {
                 ))}
               </div>
             </div>
+            </a>
 
             <div className="bg-white rounded-xl p-6 shadow-md">
               <h3 className="text-xl font-semibold mb-4">Newsletter</h3>
