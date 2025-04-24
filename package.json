@@ -13,17 +13,16 @@
     "bootstrap": "^5.3.5",
     "chart.js": "^4.4.9",
     "moment": "^2.30.1",
-    "next": "15.3.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "next": "^14.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "tailwindcss": "^4",
-    "typescript": "^5"
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "typescript": "^5",
+    "tailwindcss": "^4"
   }
 }

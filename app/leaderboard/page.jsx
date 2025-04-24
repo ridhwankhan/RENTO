@@ -16,22 +16,22 @@ const Leaderboard = () => {
           y: 0
         }, {
           x: '2017-01-06 00:07:00',
-          y: 100
+          y: 50
         }, {
           x: '2017-01-06 00:15:40',
-          y: 300
+          y: 30
         }, {
           x: '2017-01-06 00:18:10',
-          y: 260
+          y: 26
         }, {
           x: '2017-01-06 00:20:40',
-          y: 350
+          y: 35
         }, {
           x: '2017-01-06 00:30:20',
-          y: 400
+          y: 40
         }, {
           x: '2017-01-06 00:40:10',
-          y: 550
+          y: 55
         }]
       };
 
@@ -169,15 +169,14 @@ const Leaderboard = () => {
             <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
               <div className="navbar-nav">
                 <Link href="/" className="pl-md-0 p-3 text-decoration-none text-light">
-                  <h3 className="bold"><span className="color_danger">LAKSHYA</span><span className="color_white">CTF</span></h3>
+                  <h3 className="bold"><span className="color_danger">RENTO</span><span className="color_white">CTF</span></h3>
                 </Link>
               </div>
               <div className="navbar-nav ml-auto">
                 <Link href="/" className="p-3 text-decoration-none text-light bold">Home</Link>
                 <Link href="/about" className="p-3 text-decoration-none text-light bold">About</Link>
-                <Link href="/hackerboard" className="p-3 text-decoration-none text-white bold">Hackerboard</Link>
-                <Link href="/login" className="p-3 text-decoration-none text-light bold">Login</Link>
-                <Link href="/register" className="p-3 text-decoration-none text-light bold">Register</Link>
+                <Link href="/hackerboard" className="p-3 text-decoration-none text-white bold">Leaderboard</Link>
+
               </div>
             </div>
           </nav>
@@ -189,10 +188,10 @@ const Leaderboard = () => {
           <div className="row">
             <div className="col-xl-12">
               <h1 className="display-1 bold color_white content__title text-center">
-                <span className="color_danger">HACKER</span>BOARD<span className="vim-caret">&nbsp;</span>
+                <span className="color_danger">LEADER</span>BOARD<span className="vim-caret">&nbsp;</span>
               </h1>
               <p className="text-grey lead text-spacey text-center hackerFont">
-                Where the world gets ranked!
+                Where the owners gets ranked!
               </p>
               <div className="row justify-content-center my-5">
                 <div className="col-xl-10">
@@ -216,32 +215,26 @@ const Leaderboard = () => {
                 <tbody>
                   <tr>
                     <th scope="row">1</th>
-                    <td>liveoverflow</td>
-                    <td>8</td>
-                    <td>42:59</td>
+                    <td>Salam</td>
+                    <td>10</td>
+                    <td>1d</td>
                     <td>2540</td>
                   </tr>
                   <tr>
                     <th scope="row">2</th>
-                    <td>CR007</td>
-                    <td>6</td>
-                    <td>44:59</td>
+                    <td>kalam</td>
+                    <td>8</td>
+                    <td>2d</td>
                     <td>1900</td>
                   </tr>
                   <tr>
                     <th scope="row">3</th>
-                    <td>anonymous</td>
-                    <td>4</td>
-                    <td>40:00</td>
-                    <td>650</td>
+                    <td>anwar</td>
+                    <td>7</td>
+                    <td>2d3hr</td>
+                    <td>1500</td>
                   </tr>
-                  <tr>
-                    <th scope="row">4</th>
-                    <td>ashawe</td>
-                    <td>5</td>
-                    <td>40:10</td>
-                    <td>550</td>
-                  </tr>
+
                 </tbody>
               </table>
             </div>
