@@ -5,10 +5,11 @@ const isDev = process.env.NODE_ENV === 'development';
 
 // Mock data for development
 const mockLeaderboardData = [
-  { _id: '1', userId: 'user1', name: 'John Doe', team: 'Team Alpha', score: 800, rank: 1 },
-  { _id: '2', userId: 'user2', name: 'Jane Smith', team: 'Team Beta', score: 600, rank: 2 },
-  { _id: '3', userId: 'user3', name: 'Bob Johnson', team: 'Team Gamma', score: 400, rank: 3 },
-  { _id: '4', userId: 'user4', name: 'Alice Brown', team: 'Team Alpha', score: 200, rank: 4 },
+  { _id: '1', userId: 'user1', name: 'John Doe', score: 800 },
+  { _id: '2', userId: 'user2', name: 'Jane Smith', score: 600 },
+  { _id: '3', userId: 'user3', name: 'Bob Johnson', score: 400 },
+  { _id: '4', userId: 'user4', name: 'Alice Brown', score: 200 },
+  { _id: '5', userId: 'user5', name: 'Michael Wilson', score: 1000 },
 ];
 
 // Mock MongoDB client for development
@@ -34,6 +35,12 @@ class MockMongoClient {
                 };
               }
             };
+          },
+          updateOne(query: any, update: any, options: any) {
+            return Promise.resolve({ modifiedCount: 1, upsertedId: null });
+          },
+          insertOne(doc: any) {
+            return Promise.resolve({ insertedId: 'new-id' });
           }
         };
       }
@@ -64,4 +71,3 @@ if (isDev && !process.env.MONGODB_URI) {
 }
 
 export default clientPromise;
-

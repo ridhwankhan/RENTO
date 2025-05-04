@@ -10,19 +10,19 @@ export async function GET(
 ) {
   try {
     const { id } = params;
-    
+
     const client = await clientPromise;
     const db = client.db("rento");
-    
+
     const issue = await db.collection("issues").findOne({ _id: new ObjectId(id) });
-    
+
     if (!issue) {
       return NextResponse.json(
         { error: 'Issue not found' },
         { status: 404 }
       );
     }
-    
+
     return NextResponse.json(issue);
   } catch (error) {
     console.error('Error fetching issue:', error);
@@ -41,46 +41,35 @@ export async function PUT(
   try {
     const { id } = params;
     const { status, requesterId } = await request.json();
-    
+
     const client = await clientPromise;
     const db = client.db("rento");
-    
+
     // Find the issue
     const issue = await db.collection("issues").findOne({ _id: new ObjectId(id) });
-    
+
     if (!issue) {
       return NextResponse.json(
         { error: 'Issue not found' },
         { status: 404 }
       );
     }
-    
+
     let updateData: any = {
       status,
       updatedAt: new Date().toISOString()
     };
-    
+
     let notificationData: any = {
       type: 'issue_update',
       issueId: id,
       read: false,
       timestamp: new Date().toISOString()
     };
-    
+
     // Handle different status updates
-    if (status === 'resolved_requested') {
-      // Owner requesting tenant to mark as resolved
-      if (requesterId !== issue.ownerId) {
-        return NextResponse.json(
-          { error: 'Only the owner can request resolution' },
-          { status: 403 }
-        );
-      }
-      
-      notificationData.userId = issue.tenantId;
-      notificationData.message = `Owner has requested to mark issue "${issue.title}" as resolved. Please confirm if the issue is fixed.`;
-    } 
-    else if (status === 'completed') {
+    // When updating an issue to completed status:
+    if (status === 'completed') {
       // Tenant confirming issue is resolved
       if (requesterId !== issue.tenantId) {
         return NextResponse.json(
@@ -88,33 +77,33 @@ export async function PUT(
           { status: 403 }
         );
       }
-      
+
       updateData.completedAt = new Date().toISOString();
       notificationData.userId = issue.ownerId;
       notificationData.message = `Issue "${issue.title}" has been marked as completed by the tenant.`;
-      
+
       // Add points to owner's leaderboard score
       await db.collection("leaderboard").updateOne(
         { userId: issue.ownerId },
-        { 
+        {
           $inc: { score: 200 },
-          $setOnInsert: { name: "Property Owner", team: "Owners" }
+          $setOnInsert: { name: "Property Owner" } // Remove team field
         },
         { upsert: true }
       );
     }
-    
+
     // Update the issue
     await db.collection("issues").updateOne(
       { _id: new ObjectId(id) },
       { $set: updateData }
     );
-    
+
     // Create notification
     after(async () => {
       await db.collection("notifications").insertOne(notificationData);
     });
-    
+
     return NextResponse.json({
       message: `Issue status updated to ${status}`,
       issue: {
