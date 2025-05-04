@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, FormEvent } from 'react';
+import React, { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
@@ -16,25 +16,25 @@ export default function NewIssuePage() {
   const [propertyId, setPropertyId] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  
+
   // Mock tenant ID and properties - in a real app, these would come from authentication and API
   const tenantId = 'TENANT123';
   const properties: Property[] = [
     { id: 'PROP123', name: 'Apartment 101' },
     { id: 'PROP456', name: 'House 202' }
   ];
-  
+
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    
+
     if (!title || !description || !propertyId) {
       setError('Please fill out all fields');
       return;
     }
-    
+
     setLoading(true);
     setError('');
-    
+
     try {
       const response = await fetch('/api/issues', {
         method: 'POST',
@@ -48,12 +48,12 @@ export default function NewIssuePage() {
           tenantId
         }),
       });
-      
+
       if (!response.ok) {
         const data = await response.json();
         throw new Error(data.error || 'Failed to report issue');
       }
-      
+
       router.push('/tenant/issues');
     } catch (err: any) {
       setError(err.message || 'Error reporting issue. Please try again.');
@@ -62,7 +62,7 @@ export default function NewIssuePage() {
       setLoading(false);
     }
   }
-  
+
   return (
     <div className="p-6 max-w-2xl mx-auto">
       <div className="flex items-center mb-6">
@@ -71,9 +71,9 @@ export default function NewIssuePage() {
         </Link>
         <h1 className="text-2xl font-bold">Report New Issue</h1>
       </div>
-      
+
       {error && <div className="bg-red-100 text-red-700 p-3 rounded mb-4">{error}</div>}
-      
+
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor="property" className="block text-sm font-medium text-gray-700 mb-1">
@@ -94,7 +94,7 @@ export default function NewIssuePage() {
             ))}
           </select>
         </div>
-        
+
         <div>
           <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
             Issue Title
@@ -109,7 +109,7 @@ export default function NewIssuePage() {
             required
           />
         </div>
-        
+
         <div>
           <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
             Description
@@ -124,7 +124,7 @@ export default function NewIssuePage() {
             required
           />
         </div>
-        
+
         <button
           type="submit"
           disabled={loading}
@@ -136,3 +136,4 @@ export default function NewIssuePage() {
     </div>
   );
 }
+
