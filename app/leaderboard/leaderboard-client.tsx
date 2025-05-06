@@ -4,9 +4,9 @@ import React, { useState, useEffect } from 'react';
 
 interface LeaderboardEntry {
   _id: string;
-  userId: string;
+  ownerId: string;
   name: string;
-  team: string;
+  team?: string;
   score: number;
   rank: number;
 }
@@ -35,6 +35,9 @@ export default function LeaderboardClient() {
     fetchLeaderboard();
   }, []);
 
+  // Check if any entries have team data
+  const hasTeamData = leaderboard.some(entry => entry.team);
+
   return (
     <div className="p-6 max-w-4xl mx-auto">
       <h1 className="text-3xl font-bold mb-6 text-center">Owner Leaderboard</h1>
@@ -59,9 +62,11 @@ export default function LeaderboardClient() {
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Owner
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Team
-                </th>
+                {hasTeamData && (
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Team
+                  </th>
+                )}
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Score
                 </th>
@@ -75,9 +80,9 @@ export default function LeaderboardClient() {
                 <tr key={entry._id} className={entry.rank <= 3 ? "bg-yellow-50" : ""}>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className={`text-sm font-medium ${entry.rank === 1 ? "text-yellow-600" :
-                        entry.rank === 2 ? "text-gray-600" :
-                          entry.rank === 3 ? "text-amber-700" :
-                            "text-gray-900"
+                      entry.rank === 2 ? "text-gray-600" :
+                        entry.rank === 3 ? "text-amber-700" :
+                          "text-gray-900"
                       }`}>
                       {entry.rank === 1 ? "🥇" :
                         entry.rank === 2 ? "🥈" :
@@ -88,9 +93,11 @@ export default function LeaderboardClient() {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm font-medium text-gray-900">{entry.name}</div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-500">{entry.team}</div>
-                  </td>
+                  {hasTeamData && (
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm text-gray-500">{entry.team || '-'}</div>
+                    </td>
+                  )}
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm font-bold text-gray-900">{entry.score}</div>
                   </td>
@@ -106,3 +113,4 @@ export default function LeaderboardClient() {
     </div>
   );
 }
+

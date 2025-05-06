@@ -1,9 +1,7 @@
 import { NextResponse } from 'next/server';
 import clientPromise from '@/lib/mongodb';
 import { ObjectId } from 'mongodb';
-import { after } from 'next/server';
 
-// Get a specific issue
 export async function GET(
   request: Request,
   { params }: { params: { id: string } }
@@ -14,7 +12,8 @@ export async function GET(
     const client = await clientPromise;
     const db = client.db("rento");
 
-    const issue = await db.collection("issues").findOne({ _id: new ObjectId(id) });
+    // Try to find the issue by ID
+    const issue = await db.collection("issues").findOne({ _id: id });
 
     if (!issue) {
       return NextResponse.json(
@@ -33,7 +32,6 @@ export async function GET(
   }
 }
 
-// Update issue status
 export async function PUT(
   request: Request,
   { params }: { params: { id: string } }
@@ -84,10 +82,10 @@ export async function PUT(
 
       // Add points to owner's leaderboard score
       await db.collection("leaderboard").updateOne(
-        { userId: issue.ownerId },
+        { ownerId: issue.ownerId },
         {
           $inc: { score: 200 },
-          $setOnInsert: { name: "Property Owner" } // Remove team field
+          $setOnInsert: { name: "Property Owner" } // Default name if not exists
         },
         { upsert: true }
       );
@@ -119,3 +117,5 @@ export async function PUT(
     );
   }
 }
+
+

@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useState, FormEvent } from 'react';
+import React, { useState, FormEvent, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 interface Property {
-  id: string;
-  name: string;
+  _id: string;
+  title: string;
 }
 
 export default function NewIssuePage() {
@@ -16,13 +16,22 @@ export default function NewIssuePage() {
   const [propertyId, setPropertyId] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [properties, setProperties] = useState<Property[]>([]);
 
-  // Mock tenant ID and properties - in a real app, these would come from authentication and API
+  // Mock tenant ID - in a real app, this would come from authentication
   const tenantId = 'TENANT123';
-  const properties: Property[] = [
-    { id: 'PROP123', name: 'Apartment 101' },
-    { id: 'PROP456', name: 'House 202' }
-  ];
+
+  // Fetch properties from mock data
+  useEffect(() => {
+    // In a real app, this would be an API call filtered by tenant
+    // For now, we'll use the mock data from our MongoDB mock
+    const mockProperties = [
+      { _id: 'prop1', title: 'Modern Downtown Apartment' },
+      { _id: 'prop2', title: 'Cozy Suburban House' }
+    ];
+
+    setProperties(mockProperties);
+  }, []);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -88,8 +97,8 @@ export default function NewIssuePage() {
           >
             <option value="">Select a property</option>
             {properties.map((property) => (
-              <option key={property.id} value={property.id}>
-                {property.name}
+              <option key={property._id} value={property._id}>
+                {property.title}
               </option>
             ))}
           </select>
@@ -136,4 +145,7 @@ export default function NewIssuePage() {
     </div>
   );
 }
+
+
+
 

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 
 interface LeaderboardEntry {
   _id: string;
-  userId: string;
+  ownerId: string;
   name: string;
   team?: string; // Make team optional
   score: number;
@@ -117,3 +117,5 @@ export function LeaderboardComponent() {
 }
 
 export default LeaderboardComponent;
+
+

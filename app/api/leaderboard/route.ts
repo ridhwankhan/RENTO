@@ -6,10 +6,10 @@ export async function GET() {
     const client = await clientPromise;
     const db = client.db("rento");
 
-    // Get leaderboard data sorted by score
+    // Get leaderboard data sorted by score in descending order (highest first)
     const leaderboard = await db.collection("leaderboard")
       .find()
-      .sort({ score: -1 })
+      .sort({ score: -1 }) // -1 means descending order (highest first)
       .limit(20)
       .toArray();
 
@@ -28,3 +28,69 @@ export async function GET() {
     );
   }
 }
+
+// Add a new leaderboard entry or update an existing one
+export async function POST(request: Request) {
+  try {
+    const data = await request.json();
+
+    // Validate required fields
+    if (!data.ownerId || !data.name || data.score === undefined) {
+      return NextResponse.json(
+        { error: 'Missing required fields (ownerId, name, score)' },
+        { status: 400 }
+      );
+    }
+
+    const client = await clientPromise;
+    const db = client.db("rento");
+
+    // Check if entry already exists
+    const existingEntry = await db.collection("leaderboard").findOne({ ownerId: data.ownerId });
+
+    if (existingEntry) {
+      // Update existing entry
+      const result = await db.collection("leaderboard").updateOne(
+        { ownerId: data.ownerId },
+        {
+          $set: {
+            name: data.name,
+            score: data.score,
+            ...(data.team ? { team: data.team } : {})
+          }
+        }
+      );
+
+      return NextResponse.json({
+        success: true,
+        message: 'Leaderboard entry updated',
+        modifiedCount: result.modifiedCount
+      });
+    } else {
+      // Create new entry
+      const newEntry = {
+        ownerId: data.ownerId,
+        name: data.name,
+        score: data.score,
+        ...(data.team ? { team: data.team } : {})
+      };
+
+      const result = await db.collection("leaderboard").insertOne(newEntry);
+
+      return NextResponse.json({
+        success: true,
+        message: 'Leaderboard entry created',
+        entryId: result.insertedId.toString()
+      });
+    }
+  } catch (error) {
+    console.error('Error updating leaderboard:', error);
+    return NextResponse.json(
+      { error: 'Failed to update leaderboard' },
+      { status: 500 }
+    );
+  }
+}
+
+
+
