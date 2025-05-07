@@ -34,15 +34,3 @@ A community platform for connecting with neighbors, sharing information, and bui
    ```
 
 4. Open [http://localhost:3000](http://localhost:3000) in your browser
-
-## Simplified Version
-
-A simplified HTML version is also available in the `simple-app` directory. This version doesn't require any server or dependencies and can be opened directly in a browser.
-
-## Author
-
-- **Proloy Poddar** - [proloypoddar](https://github.com/proloypoddar)
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
